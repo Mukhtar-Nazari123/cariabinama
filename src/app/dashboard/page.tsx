@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, Filter, MoreHorizontal } from "lucide-react";
+import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, MoreHorizontal } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
@@ -103,6 +103,55 @@ export default function DashboardPage() {
   const pendingJobs = managedJobs.filter(job => job.status === 'در حال بررسی');
   const expiredJobs = managedJobs.filter(job => job.status === 'منقضی شده');
     
+  const JobTable = ({jobs}: {jobs: typeof managedJobs}) => (
+    <Table>
+        <TableHeader>
+            <TableRow>
+                <TableHead>عنوان شغل</TableHead>
+                <TableHead className="hidden sm:table-cell">شرکت</TableHead>
+                <TableHead className="hidden md:table-cell">بازدید</TableHead>
+                <TableHead className="hidden md:table-cell">درخواست</TableHead>
+                <TableHead>وضعیت</TableHead>
+                <TableHead><span className="sr-only">عملیات</span></TableHead>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            {jobs.map((job) => (
+                <TableRow key={job.id}>
+                    <TableCell className="font-medium">{job.title}</TableCell>
+                    <TableCell className="hidden sm:table-cell">{job.company}</TableCell>
+                    <TableCell className="hidden md:table-cell">{job.views.toLocaleString('fa-IR')}</TableCell>
+                    <TableCell className="hidden md:table-cell">{job.applications.toLocaleString('fa-IR')}</TableCell>
+                    <TableCell>
+                        <Badge variant={getStatusVariant(job.status) as any}>{job.status}</Badge>
+                    </TableCell>
+                    <TableCell>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button aria-haspopup="true" size="icon" variant="ghost">
+                                    <MoreHorizontal className="h-4 w-4" />
+                                    <span className="sr-only">Toggle menu</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+                                <DropdownMenuItem>
+                                    <Edit className="me-2 h-4 w-4" />
+                                    ویرایش
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="text-destructive focus:text-destructive">
+                                    <Trash2 className="me-2 h-4 w-4" />
+                                    حذف
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </TableCell>
+                </TableRow>
+            ))}
+        </TableBody>
+    </Table>
+  );
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
         <header className="mb-8 md:mb-12">
@@ -150,58 +199,15 @@ export default function DashboardPage() {
                                     <Input placeholder="جستجوی آگهی..." className="ps-10" />
                                 </div>
                             </div>
-                            <div className="mt-4">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>عنوان شغل</TableHead>
-                                            <TableHead className="hidden sm:table-cell">شرکت</TableHead>
-                                            <TableHead className="hidden md:table-cell">بازدید</TableHead>
-                                            <TableHead className="hidden md:table-cell">درخواست</TableHead>
-                                            <TableHead>وضعیت</TableHead>
-                                            <TableHead><span className="sr-only">عملیات</span></TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {[activeJobs, pendingJobs, expiredJobs].map((jobList, index) => (
-                                            <TabsContent key={["active", "pending", "expired"][index]} value={["active", "pending", "expired"][index]} className="contents">
-                                                 {jobList.map((job) => (
-                                                     <TableRow key={job.id}>
-                                                        <TableCell className="font-medium">{job.title}</TableCell>
-                                                        <TableCell className="hidden sm:table-cell">{job.company}</TableCell>
-                                                        <TableCell className="hidden md:table-cell">{job.views.toLocaleString('fa-IR')}</TableCell>
-                                                        <TableCell className="hidden md:table-cell">{job.applications.toLocaleString('fa-IR')}</TableCell>
-                                                        <TableCell>
-                                                            <Badge variant={getStatusVariant(job.status) as any}>{job.status}</Badge>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                             <DropdownMenu>
-                                                                <DropdownMenuTrigger asChild>
-                                                                    <Button aria-haspopup="true" size="icon" variant="ghost">
-                                                                        <MoreHorizontal className="h-4 w-4" />
-                                                                        <span className="sr-only">Toggle menu</span>
-                                                                    </Button>
-                                                                </DropdownMenuTrigger>
-                                                                <DropdownMenuContent align="end">
-                                                                    <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-                                                                    <DropdownMenuItem>
-                                                                        <Edit className="me-2 h-4 w-4" />
-                                                                        ویرایش
-                                                                    </DropdownMenuItem>
-                                                                    <DropdownMenuItem className="text-destructive focus:text-destructive">
-                                                                        <Trash2 className="me-2 h-4 w-4" />
-                                                                        حذف
-                                                                    </DropdownMenuItem>
-                                                                </DropdownMenuContent>
-                                                            </DropdownMenu>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                 ))}
-                                            </TabsContent>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </div>
+                            <TabsContent value="active" className="mt-4">
+                                <JobTable jobs={activeJobs} />
+                            </TabsContent>
+                            <TabsContent value="pending" className="mt-4">
+                                <JobTable jobs={pendingJobs} />
+                            </TabsContent>
+                            <TabsContent value="expired" className="mt-4">
+                                <JobTable jobs={expiredJobs} />
+                            </TabsContent>
                         </Tabs>
                     </CardContent>
                 </Card>
