@@ -1,3 +1,58 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background-1",
+      "description": "Modern office interior with people working",
+      "imageUrl": "https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxvZmZpY2UlMjB3b3Jrc3BhY2V8ZW58MHx8fHwxNzYzOTk3MDE1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "office workspace"
+    },
+    {
+      "id": "company-logo-1",
+      "description": "Abstract geometric logo for a tech company",
+      "imageUrl": "https://images.unsplash.com/photo-1744390166675-966abed5fcc8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhYnN0cmFjdCUyMGxvZ298ZW58MHx8fHwxNzY0MDAwMDAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract logo"
+    },
+    {
+      "id": "company-logo-2",
+      "description": "Minimalist logo with a letter 'B'",
+      "imageUrl": "https://images.unsplash.com/photo-1760037034804-2dce280659e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWluaW1hbGlzdCUyMGxvZ298ZW58MHx8fHwxNzY0MDM5MjcyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "minimalist logo"
+    },
+    {
+      "id": "company-logo-3",
+      "description": "Colorful startup logo",
+      "imageUrl": "https://images.unsplash.com/photo-1755435140567-3c9df5ceffa1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjb2xvcmZ1bCUyMGxvZ298ZW58MHx8fHwxNzY0MDI4MDA0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "colorful logo"
+    },
+    {
+      "id": "company-logo-4",
+      "description": "Corporate logo with a globe icon",
+      "imageUrl": "https://images.unsplash.com/photo-1758813237985-f2259be96b60?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29ycG9yYXRlJTIwbG9nb3xlbnwwfHx8fDE3NjQwMDIxNjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "corporate logo"
+    },
+    {
+      "id": "blog-image-1",
+      "description": "Person writing on a laptop in a cafe",
+      "imageUrl": "https://images.unsplash.com/flagged/1/apple-gear-looking-pretty.jpg?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3cml0aW5nJTIwbGFwdG9wfGVufDB8fHx8MTc2NDA1NTYzNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "writing laptop"
+    },
+    {
+      "id": "blog-image-2",
+      "description": "A group of people collaborating in a meeting",
+      "imageUrl": "https://images.unsplash.com/photo-1622675363311-3e1904dc1885?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0ZWFtJTIwbWVldGluZ3xlbnwwfHx8fDE3NjM5NzI2NjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "team meeting"
+    },
+    {
+      "id": "blog-image-3",
+      "description": "A person being interviewed for a job",
+      "imageUrl": "https://images.unsplash.com/photo-1698047682091-782b1e5c6536?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxqb2IlMjBpbnRlcnZpZXd8ZW58MHx8fHwxNzY0MDU1NjM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "job interview"
+    },
+    {
+      "id": "blog-image-4",
+      "description": "A person writing a resume on a desk",
+      "imageUrl": "https://images.unsplash.com/photo-1761671613933-159512988cb3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3cml0aW5nJTIwcmVzdW1lfGVufDB8fHx8MTc2NDA1NTYzNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "writing resume"
+    }
+  ]
 }
