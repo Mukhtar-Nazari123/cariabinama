@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useFormStatus } from 'react-dom';
+import { useActionState, useFormStatus } from 'react';
 import { getJobRecommendations, type RecommendationState } from './actions';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
