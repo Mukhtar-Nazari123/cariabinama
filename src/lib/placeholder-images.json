@@ -83,6 +83,24 @@
       "description": "Medical professional with a stethoscope",
       "imageUrl": "https://images.unsplash.com/photo-1710074213379-2a9c2653046a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtZWRpY2FsJTIwaG9zcGl0YWx8ZW58MHx8fHwxNzY0MDU3MDYwfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "medical hospital"
+    },
+    {
+      "id": "category-engineering",
+      "description": "Engineering blueprints and schematics on a desk",
+      "imageUrl": "https://images.unsplash.com/photo-1629789978938-3486a2375b34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxlbmdpbmVlcmluZyUyMGJsdWVwcmludHN8ZW58MHx8fHwxNzY0NjA0NjM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "engineering blueprints"
+    },
+    {
+      "id": "category-finance",
+      "description": "Financial charts and graphs on a computer screen",
+      "imageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmaW5hbmNpYWwlMjBjaGFydHN8ZW58MHx8fHwxNzY0NjA0NjM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "financial charts"
+    },
+    {
+      "id": "category-marketing",
+      "description": "A team discussing a marketing campaign strategy",
+      "imageUrl": "https://images.unsplash.com/photo-1557862921-37829c790f19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtYXJrZXRpbmclMjBjYW1wYWlnbnxlbnwwfHx8fDE3NjQ2MDQ2MzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "marketing campaign"
     }
   ]
 }

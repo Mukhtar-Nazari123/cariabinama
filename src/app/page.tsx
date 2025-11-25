@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { featuredJobs } from '@/lib/data';
 import Link from 'next/link';
-import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse } from 'lucide-react';
+import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse, Megaphone, Cog, Landmark, Handshake } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const jobCategories = [
@@ -37,6 +37,24 @@ const jobCategories = [
     icon: <HeartPulse className="w-8 h-8" />,
     image: PlaceHolderImages.find(p => p.id === "category-healthcare")!,
     href: '/jobs?category=healthcare',
+  },
+  {
+    name: 'مهندسی',
+    icon: <Cog className="w-8 h-8" />,
+    image: PlaceHolderImages.find(p => p.id === "category-engineering")!,
+    href: '/jobs?category=engineering',
+  },
+  {
+    name: 'مالی',
+    icon: <Landmark className="w-8 h-8" />,
+    image: PlaceHolderImages.find(p => p.id === "category-finance")!,
+    href: '/jobs?category=finance',
+  },
+  {
+    name: 'بازاریابی',
+    icon: <Megaphone className="w-8 h-8" />,
+    image: PlaceHolderImages.find(p => p.id === "category-marketing")!,
+    href: '/jobs?category=marketing',
   },
 ];
 
@@ -80,7 +98,7 @@ export default function Home() {
             مشاغل را بر اساس دسته‌بندی‌های محبوب مرور کنید.
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-6">
           {jobCategories.map((category) => (
             <Link href={category.href} key={category.name} className="group relative rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
               <Image
