@@ -4,8 +4,42 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { featuredJobs } from '@/lib/data';
 import Link from 'next/link';
-import { MapPin, Briefcase, Building } from 'lucide-react';
+import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+
+const jobCategories = [
+  {
+    name: 'فناوری اطلاعات',
+    icon: <Code className="w-8 h-8" />,
+    image: PlaceHolderImages.find(p => p.id === "category-it")!,
+    href: '/jobs?category=it',
+  },
+  {
+    name: 'مدیریت',
+    icon: <Users className="w-8 h-8" />,
+    image: PlaceHolderImages.find(p => p.id === "category-management")!,
+    href: '/jobs?category=management',
+  },
+  {
+    name: 'فروش',
+    icon: <TrendingUp className="w-8 h-8" />,
+    image: PlaceHolderImages.find(p => p.id === "category-sales")!,
+    href: '/jobs?category=sales',
+  },
+  {
+    name: 'طراحی',
+    icon: <Palette className="w-8 h-8" />,
+    image: PlaceHolderImages.find(p => p.id === "category-design")!,
+    href: '/jobs?category=design',
+  },
+    {
+    name: 'بهداشت و درمان',
+    icon: <HeartPulse className="w-8 h-8" />,
+    image: PlaceHolderImages.find(p => p.id === "category-healthcare")!,
+    href: '/jobs?category=healthcare',
+  },
+];
+
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === "hero-background-1");
@@ -36,6 +70,36 @@ export default function Home() {
               <JobSearchForm />
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto px-4 md:px-6 -mt-8 md:-mt-12 lg:-mt-20">
+        <div className="flex flex-col items-center text-center gap-4 mb-10">
+          <h2 className="font-headline text-3xl md:text-4xl font-bold">دسته‌بندی مشاغل</h2>
+          <p className="text-muted-foreground max-w-2xl">
+            مشاغل را بر اساس دسته‌بندی‌های محبوب مرور کنید.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+          {jobCategories.map((category) => (
+            <Link href={category.href} key={category.name} className="group relative rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+              <Image
+                src={category.image.imageUrl}
+                alt={category.name}
+                width={400}
+                height={200}
+                className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-300"
+                data-ai-hint={category.image.imageHint}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/10" />
+              <div className="absolute bottom-0 start-0 p-4 text-white">
+                <div className="p-2 bg-white/20 backdrop-blur-sm rounded-full inline-block mb-2">
+                   {category.icon}
+                </div>
+                <h3 className="font-headline text-lg font-bold">{category.name}</h3>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

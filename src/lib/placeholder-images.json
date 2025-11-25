@@ -53,6 +53,36 @@
       "description": "A person writing a resume on a desk",
       "imageUrl": "https://images.unsplash.com/photo-1761671613933-159512988cb3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3cml0aW5nJTIwcmVzdW1lfGVufDB8fHx8MTc2NDA1NTYzNXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "writing resume"
+    },
+    {
+      "id": "category-it",
+      "description": "Abstract technology background",
+      "imageUrl": "https://images.unsplash.com/photo-1635775017492-1eb935a082a4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx0ZWNobm9sb2d5JTIwY29kZXxlbnwwfHx8fDE3NjQwNDY0MDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "technology code"
+    },
+    {
+      "id": "category-management",
+      "description": "Business meeting room",
+      "imageUrl": "https://images.unsplash.com/photo-1522071901873-411886a10004?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxvZmZpY2UlMjBtZWV0aW5nfGVufDB8fHx8MTc2NDA0NzU4OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "office meeting"
+    },
+    {
+      "id": "category-sales",
+      "description": "Modern retail store environment",
+      "imageUrl": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyZXRhaWwlMjBzdG9yZXxlbnwwfHx8fDE3NjQwNDc1ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "retail store"
+    },
+    {
+      "id": "category-design",
+      "description": "Designer's desk with graphic tablet",
+      "imageUrl": "https://images.unsplash.com/photo-1740508905728-12f77cfd9a8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZXNpZ24lMjBhcnR8ZW58MHx8fHwxNzY0MDA3OTYzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "design art"
+    },
+    {
+      "id": "category-healthcare",
+      "description": "Medical professional with a stethoscope",
+      "imageUrl": "https://images.unsplash.com/photo-1710074213379-2a9c2653046a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtZWRpY2FsJTIwaG9zcGl0YWx8ZW58MHx8fHwxNzY0MDU3MDYwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "medical hospital"
     }
   ]
 }
