@@ -7,6 +7,14 @@ import Link from 'next/link';
 import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse, Megaphone, Cog, Landmark, Handshake, Star } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
 
 const jobCategories = [
   {
@@ -80,6 +88,13 @@ const testimonials = [
     avatar: 'https://i.pravatar.cc/150?u=fatemeh',
     rating: 4,
     comment: "پلتفرم کاربرپسندی دارید و تنوع آگهی‌های شغلی در زمینه طراحی عالی بود. تجربه خوبی داشتم.",
+  },
+  {
+    name: 'رضا محمودی',
+    job: 'تحلیلگر داده',
+    avatar: 'https://i.pravatar.cc/150?u=reza',
+    rating: 5,
+    comment: "رابط کاربری سایت بسیار روان است و پیدا کردن شغل متناسب با مهارت‌هایم خیلی راحت بود.",
   },
 ];
 
@@ -206,35 +221,49 @@ export default function Home() {
               بیش از هزاران کاربر از خدمات ما بهره‌مند شده‌اند. در اینجا نظرات و تجربیات برخی از آن‌ها را مشاهده کنید.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((testimonial) => (
-              <Card key={testimonial.name} className="bg-background">
-                <CardContent className="pt-6">
-                  <div className="flex mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 ${i < testimonial.rating ? 'text-accent fill-accent' : 'text-muted-foreground/50'}`}
-                      />
-                    ))}
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="p-1 h-full">
+                    <Card className="bg-background h-full flex flex-col">
+                      <CardContent className="pt-6 flex-grow">
+                        <div className="flex mb-4">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-5 h-5 ${i < testimonial.rating ? 'text-accent fill-accent' : 'text-muted-foreground/50'}`}
+                            />
+                          ))}
+                        </div>
+                        <blockquote className="text-foreground/90 italic border-s-4 border-primary ps-4">
+                          {testimonial.comment}
+                        </blockquote>
+                      </CardContent>
+                      <CardFooter className="flex items-center gap-4 pt-4">
+                        <Avatar>
+                          <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
+                          <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-semibold text-foreground">{testimonial.name}</p>
+                          <p className="text-sm text-muted-foreground">{testimonial.job}</p>
+                        </div>
+                      </CardFooter>
+                    </Card>
                   </div>
-                  <blockquote className="text-foreground/90 italic border-s-4 border-primary ps-4">
-                    {testimonial.comment}
-                  </blockquote>
-                </CardContent>
-                <CardFooter className="flex items-center gap-4 pt-4">
-                  <Avatar>
-                    <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                    <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-semibold text-foreground">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.job}</p>
-                  </div>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
            <div className="text-center mt-12">
             <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
                 <Link href="#">شما هم تجربه خود را به اشتراک بگذارید!</Link>
