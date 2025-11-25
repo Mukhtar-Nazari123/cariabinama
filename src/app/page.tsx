@@ -1,3 +1,5 @@
+"use client";
+
 import Image from 'next/image';
 import { JobSearchForm } from '@/components/jobs/job-search-form';
 import { Button } from '@/components/ui/button';
@@ -14,6 +16,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useState, useEffect } from 'react';
 
 
 const jobCategories = [
@@ -187,21 +190,34 @@ const testimonials = [
 
 
 export default function Home() {
-  const heroImage = PlaceHolderImages.find(p => p.id === "hero-background-1");
+  const heroImages = PlaceHolderImages.filter(p => p.id.startsWith("hero-background-"));
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(timer); // Cleanup timer on component unmount
+  }, [heroImages.length]);
+
+  const currentImage = heroImages[currentImageIndex];
+
 
   return (
     <div className="flex flex-col gap-12 md:gap-16 lg:gap-24">
       <section className="relative w-full h-[50vh] md:h-[60vh] flex items-center justify-center text-center">
-        {heroImage && (
+        {heroImages.map((image, index) => (
           <Image
-            src={heroImage.imageUrl}
-            alt={heroImage.description}
+            key={image.id}
+            src={image.imageUrl}
+            alt={image.description}
             fill
-            className="object-cover"
-            data-ai-hint={heroImage.imageHint}
-            priority
+            className={`object-cover transition-opacity duration-1000 ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
+            data-ai-hint={image.imageHint}
+            priority={index === 0}
           />
-        )}
+        ))}
         <div className="absolute inset-0 bg-primary/70" />
         <div className="relative z-10 container mx-auto px-4 md:px-6 text-primary-foreground">
           <div className="max-w-3xl mx-auto flex flex-col items-center gap-6">

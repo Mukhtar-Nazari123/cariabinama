@@ -7,6 +7,18 @@
       "imageHint": "office workspace"
     },
     {
+      "id": "hero-background-2",
+      "description": "Team of professionals collaborating around a table",
+      "imageUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxqb2IlMjBjollaborationfGVufDB8fHx8MTc2NTU0NDkwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "team collaboration"
+    },
+    {
+      "id": "hero-background-3",
+      "description": "Woman confidently speaking at a business meeting",
+      "imageUrl": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBqb2J8ZW58MHx8fHwxNzY1NTQ0OTA3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional job"
+    },
+    {
       "id": "company-logo-1",
       "description": "Abstract geometric logo for a tech company",
       "imageUrl": "https://images.unsplash.com/photo-1744390166675-966abed5fcc8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhYnN0cmFjdCUyMGxvZ298ZW58MHx8fHwxNzY0MDAwMDAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -87,7 +99,7 @@
     {
       "id": "category-engineering",
       "description": "Blueprint of an engineering project",
-      "imageUrl": "https://images.unsplash.com/photo-1519756301029-33a593384219?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdpbmVlcmluZyUyMGJsdWVwcmludHxlbnwwfHx8fDE3NjQ4NzQ0NTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1629904853716-f0bc64219163?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxlbmdpbmVlcmluZyUyMGJsdWVwcmludHxlbnwwfHx8fDE3NjU1NDQzODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "engineering blueprint"
     },
     {
