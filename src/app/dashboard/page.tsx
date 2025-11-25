@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, MoreHorizontal } from "lucide-react";
+import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, MoreHorizontal, Users, UserCheck, UserX, Eye } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
@@ -14,8 +14,9 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const alerts = [
   {
@@ -86,7 +87,50 @@ const managedJobs = [
     },
 ];
 
-const getStatusVariant = (status: string) => {
+const users = [
+    {
+        id: "USR001",
+        fullName: "سارا حسینی",
+        email: "sara.h@example.com",
+        type: "کاندیدا",
+        status: "فعال",
+        registeredDate: "2024-05-10",
+    },
+    {
+        id: "USR002",
+        fullName: "راهکارهای فناوری نوین",
+        email: "hr@tech-solutions.com",
+        type: "کارفرما",
+        status: "فعال",
+        registeredDate: "2024-04-22",
+    },
+    {
+        id: "USR003",
+        fullName: "امیر قاسمی",
+        email: "amir.q@example.com",
+        type: "کاندیدا",
+        status: "غیرفعال",
+        registeredDate: "2024-03-15",
+    },
+    {
+        id: "USR004",
+        fullName: "ذهن‌های خلاق",
+        email: "contact@creative.com",
+        type: "کارفرما",
+        status: "فعال",
+        registeredDate: "2024-05-01",
+    },
+    {
+        id: "USR005",
+        fullName: "رضا محمودی",
+        email: "reza.m@example.com",
+        type: "کاندیدا",
+        status: "فعال",
+        registeredDate: "2024-05-18",
+    },
+];
+
+const getJobStatusVariant = (status: string) => {
     switch (status) {
         case "فعال":
         return "default";
@@ -94,6 +138,17 @@ const getStatusVariant = (status: string) => {
         return "secondary";
         case "منقضی شده":
         return "destructive";
+        default:
+        return "outline";
+    }
+}
+
+const getUserStatusVariant = (status: string) => {
+    switch (status) {
+        case "فعال":
+        return "default";
+        case "غیرفعال":
+        return "secondary";
         default:
         return "outline";
     }
@@ -119,7 +174,7 @@ const JobTable = ({jobs}: {jobs: typeof managedJobs}) => (
                     <TableCell className="hidden md:table-cell">{job.views.toLocaleString('fa-IR')}</TableCell>
                     <TableCell className="hidden md:table-cell">{job.applications.toLocaleString('fa-IR')}</TableCell>
                     <TableCell>
-                        <Badge variant={getStatusVariant(job.status) as any}>{job.status}</Badge>
+                        <Badge variant={getJobStatusVariant(job.status) as any}>{job.status}</Badge>
                     </TableCell>
                     <TableCell>
                         <DropdownMenu>
@@ -149,6 +204,67 @@ const JobTable = ({jobs}: {jobs: typeof managedJobs}) => (
   );
 
 
+const UserTable = ({users}: {users: typeof users}) => (
+    <Table>
+        <TableHeader>
+            <TableRow>
+                <TableHead>نام و نام خانوادگی</TableHead>
+                <TableHead className="hidden sm:table-cell">نوع کاربر</TableHead>
+                <TableHead className="hidden md:table-cell">تاریخ ثبت‌نام</TableHead>
+                <TableHead>وضعیت</TableHead>
+                <TableHead><span className="sr-only">عملیات</span></TableHead>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            {users.map((user) => (
+                <TableRow key={user.id}>
+                    <TableCell className="font-medium">
+                        <div className="font-bold">{user.fullName}</div>
+                        <div className="text-sm text-muted-foreground">{user.email}</div>
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">{user.type}</TableCell>
+                    <TableCell className="hidden md:table-cell">{user.registeredDate}</TableCell>
+                    <TableCell>
+                        <Badge variant={getUserStatusVariant(user.status) as any}>{user.status}</Badge>
+                    </TableCell>
+                    <TableCell>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button aria-haspopup="true" size="icon" variant="ghost">
+                                    <MoreHorizontal className="h-4 w-4" />
+                                    <span className="sr-only">Toggle menu</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>عملیات کاربر</DropdownMenuLabel>
+                                <DropdownMenuItem>
+                                    <Eye className="me-2 h-4 w-4" />
+                                    مشاهده پروفایل
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem>
+                                    <UserCheck className="me-2 h-4 w-4" />
+                                    فعال‌سازی
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <UserX className="me-2 h-4 w-4" />
+                                    غیرفعال‌سازی
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem className="text-destructive focus:text-destructive">
+                                    <Trash2 className="me-2 h-4 w-4" />
+                                    حذف حساب
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </TableCell>
+                </TableRow>
+            ))}
+        </TableBody>
+    </Table>
+)
+
+
 export default function DashboardPage() {
   const activeJobs = managedJobs.filter(job => job.status === 'فعال');
   const pendingJobs = managedJobs.filter(job => job.status === 'در حال بررسی');
@@ -159,13 +275,14 @@ export default function DashboardPage() {
         <header className="mb-8 md:mb-12">
             <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">داشبورد کاربری</h1>
             <p className="mt-2 text-lg text-muted-foreground">
-                آگهی‌ها و هشدارهای شغلی خود را در یک مکان مدیریت کنید.
+                آگهی‌ها، کاربران و هشدارهای شغلی خود را در یک مکان مدیریت کنید.
             </p>
         </header>
         
         <Tabs defaultValue="job-management">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="job-management">مدیریت آگهی‌های شغلی</TabsTrigger>
+                <TabsTrigger value="user-management">مدیریت کاربران</TabsTrigger>
                 <TabsTrigger value="job-alerts">هشدارهای شغلی</TabsTrigger>
             </TabsList>
             <TabsContent value="job-management" className="mt-6">
@@ -213,6 +330,48 @@ export default function DashboardPage() {
                                 <JobTable jobs={expiredJobs} />
                             </TabsContent>
                         </Tabs>
+                    </CardContent>
+                </Card>
+            </TabsContent>
+             <TabsContent value="user-management" className="mt-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="font-headline text-2xl flex items-center gap-2"><Users className="w-6 h-6"/>مدیریت کاربران</CardTitle>
+                        <CardDescription>
+                            کاربران ثبت‌نام شده را مشاهده و مدیریت کنید.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
+                           <div className="relative w-full sm:w-auto sm:max-w-xs">
+                                <Search className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="جستجو بر اساس نام یا ایمیل..." className="ps-10" />
+                            </div>
+                            <Select>
+                                <SelectTrigger className="w-full sm:w-[180px]">
+                                    <SelectValue placeholder="فیلتر بر اساس نوع" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">همه کاربران</SelectItem>
+                                    <SelectItem value="candidate">کاندیدا</SelectItem>
+                                    <SelectItem value="employer">کارفرما</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <UserTable users={users} />
+                    </CardContent>
+                </Card>
+                <Card className="mt-6">
+                    <CardHeader>
+                        <CardTitle className="font-headline text-xl">پیغام‌ها و نظرات کاربران</CardTitle>
+                        <CardDescription>
+                            بازخوردهای دریافتی از کاربران را در اینجا بررسی کنید.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-center text-muted-foreground py-8">
+                            در حال حاضر هیچ نظر جدیدی وجود ندارد.
+                        </div>
                     </CardContent>
                 </Card>
             </TabsContent>
