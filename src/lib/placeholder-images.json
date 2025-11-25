@@ -86,9 +86,9 @@
     },
     {
       "id": "category-engineering",
-      "description": "Engineering blueprints and schematics on a desk",
-      "imageUrl": "https://images.unsplash.com/photo-1629789978938-3486a2375b34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxlbmdpbmVlcmluZyUyMGJsdWVwcmludHN8ZW58MHx8fHwxNzY0NjA0NjM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "engineering blueprints"
+      "description": "Close-up of interlocking metal gears",
+      "imageUrl": "https://images.unsplash.com/photo-1502483536391-11c57e9bbf38?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdpbmVlcmluZyUyMGdlYXJzfGVufDB8fHx8MTc2NDY3ODQ2Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "engineering gears"
     },
     {
       "id": "category-finance",
