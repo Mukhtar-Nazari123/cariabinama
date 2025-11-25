@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 const alerts = [
   {
@@ -98,12 +99,7 @@ const getStatusVariant = (status: string) => {
     }
 }
 
-export default function DashboardPage() {
-  const activeJobs = managedJobs.filter(job => job.status === 'فعال');
-  const pendingJobs = managedJobs.filter(job => job.status === 'در حال بررسی');
-  const expiredJobs = managedJobs.filter(job => job.status === 'منقضی شده');
-    
-  const JobTable = ({jobs}: {jobs: typeof managedJobs}) => (
+const JobTable = ({jobs}: {jobs: typeof managedJobs}) => (
     <Table>
         <TableHeader>
             <TableRow>
@@ -152,6 +148,12 @@ export default function DashboardPage() {
     </Table>
   );
 
+
+export default function DashboardPage() {
+  const activeJobs = managedJobs.filter(job => job.status === 'فعال');
+  const pendingJobs = managedJobs.filter(job => job.status === 'در حال بررسی');
+  const expiredJobs = managedJobs.filter(job => job.status === 'منقضی شده');
+    
   return (
     <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
         <header className="mb-8 md:mb-12">
@@ -180,9 +182,11 @@ export default function DashboardPage() {
                                 <FileDown className="me-2 h-4 w-4" />
                                 خروجی
                             </Button>
-                            <Button className="bg-accent text-accent-foreground hover:bg-accent/90">
-                                <PlusCircle className="me-2 h-4 w-4" />
-                                ثبت آگهی جدید
+                            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+                                <Link href="/dashboard/post-job">
+                                    <PlusCircle className="me-2 h-4 w-4" />
+                                    ثبت آگهی جدید
+                                </Link>
                             </Button>
                         </div>
                     </CardHeader>
@@ -203,7 +207,7 @@ export default function DashboardPage() {
                                 <JobTable jobs={activeJobs} />
                             </TabsContent>
                             <TabsContent value="pending" className="mt-4">
-                                <JobTable jobs={pendingJobs} />
+                               <JobTable jobs={pendingJobs} />
                             </TabsContent>
                             <TabsContent value="expired" className="mt-4">
                                 <JobTable jobs={expiredJobs} />
