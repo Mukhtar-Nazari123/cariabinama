@@ -67,6 +67,24 @@
       "imageHint": "writing resume"
     },
     {
+      "id": "blog-image-5",
+      "description": "A person looking at a resume with a red cross over it",
+      "imageUrl": "https://images.unsplash.com/photo-1554224154-22dec7ec8818?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZXN1bWUlMjBtaXN0YWtlfGVufDB8fHx8MTc2NTYyMzQxOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "resume mistake"
+    },
+    {
+      "id": "blog-image-6",
+      "description": "A sign with multiple arrows pointing in different directions",
+      "imageUrl": "https://images.unsplash.com/photo-1553696884-25a837a7a2a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJlZXIlMjBjaGFuZ2V8ZW58MHx8fHwxNzY1NjIzNDUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "career change"
+    },
+    {
+      "id": "blog-image-7",
+      "description": "Two people shaking hands in a professional setting",
+      "imageUrl": "https://images.unsplash.com/photo-1622675363311-3e1904dc1885?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzb2Z0JTIwc2tpbGxzfGVufDB8fHx8MTc2NTYyMzQ4M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "soft skills"
+    },
+    {
       "id": "category-it",
       "description": "Abstract technology background",
       "imageUrl": "https://images.unsplash.com/photo-1635775017492-1eb935a082a4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx0ZWNobm9sb2d5JTIwY29kZXxlbnwwfHx8fDE3NjQwNDY0MDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
