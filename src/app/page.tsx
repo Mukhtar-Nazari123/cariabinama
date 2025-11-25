@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { featuredJobs } from '@/lib/data';
 import Link from 'next/link';
-import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse, Megaphone, Cog, Landmark, Handshake, Star, Clock, BrainCircuit, Headset, ThumbsUp } from 'lucide-react';
+import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse, Megaphone, Cog, Landmark, Handshake, Star, Clock, BrainCircuit, Headset, ThumbsUp, BriefcaseBusiness, UserRoundPlus, Building2 } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -88,6 +88,27 @@ const benefits = [
     title: "تجربه کاربری عالی",
     description: "با طراحی ساده و کاربرپسند، سریع‌تر و راحت‌تر شغل مورد نظر خود را پیدا کنید.",
   },
+];
+
+const stats = [
+  {
+    icon: <BriefcaseBusiness className="w-10 h-10 text-primary" />,
+    value: "500+",
+    label: "شغل موجود",
+    description: "با 500+ آگهی شغلی در دسترس، گزینه‌های بی‌نظیری برای شما داریم."
+  },
+  {
+    icon: <UserRoundPlus className="w-10 h-10 text-primary" />,
+    value: "10,000+",
+    label: "کارجوی ثبت‌نام شده",
+    description: "10,000+ کارجو از خدمات ما بهره‌مند شده‌اند و به جامعه ما پیوسته‌اند."
+  },
+  {
+    icon: <Building2 className="w-10 h-10 text-primary" />,
+    value: "600+",
+    label: "کارفرمای فعال",
+    description: "600+ کارفرما برای یافتن بهترین استعدادها به ما اعتماد کرده‌اند."
+  }
 ];
 
 
@@ -261,6 +282,34 @@ export default function Home() {
             <Button asChild variant="outline">
                 <Link href="/jobs">مشاهده همه مشاغل</Link>
             </Button>
+        </div>
+      </section>
+
+      <section className="bg-background py-12 md:py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center text-center gap-4 mb-10">
+            <h2 className="font-headline text-3xl md:text-4xl font-bold">آمار کلیدی ما</h2>
+            <p className="text-muted-foreground max-w-2xl">
+              ما به هزاران کاربر و کارفرما خدمات ارائه می‌دهیم. در اینجا آمار کلیدی وب‌سایت ما را مشاهده کنید.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {stats.map((stat, index) => (
+              <Card key={index} className="flex flex-col items-center text-center p-6 border-2 border-transparent hover:border-primary hover:shadow-lg transition-all duration-300">
+                <div className="bg-primary/10 p-4 rounded-full mb-4">
+                  {stat.icon}
+                </div>
+                <p className="font-headline text-4xl font-bold text-primary">{stat.value}</p>
+                <h3 className="font-headline text-xl font-semibold mt-2">{stat.label}</h3>
+                <p className="text-muted-foreground text-sm mt-2 max-w-xs">{stat.description}</p>
+              </Card>
+            ))}
+          </div>
+           <div className="text-center mt-12">
+            <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+              <Link href="/signup">اکنون به جمع ما بپیوندید!</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
