@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, MoreHorizontal, Users, UserCheck, UserX, Eye } from "lucide-react";
+import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, MoreHorizontal, Users, UserCheck, UserX, Eye, MessageSquare, Reply } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const alerts = [
   {
@@ -127,6 +128,30 @@ const users = [
         type: "کاندیدا",
         status: "فعال",
         registeredDate: "2024-05-18",
+    },
+];
+
+const userComments = [
+    {
+        id: 1,
+        name: "شبنم ریاحی",
+        avatar: "https://i.pravatar.cc/150?u=shabnam",
+        comment: "سایت شما بهترین تجربه کاریابی را برای من رقم زد. پیدا کردن شغل در حوزه سئو هیچ‌وقت به این سادگی نبود!",
+        timestamp: "۲ ساعت پیش",
+    },
+    {
+        id: 2,
+        name: "مهدی یوسفی",
+        avatar: "https://i.pravatar.cc/150?u=mahdi",
+        comment: "به‌عنوان یک دانشجو، پیدا کردن دوره کارآموزی مناسب خیلی سخت بود، اما با سایت شما موفق شدم. ممنون!",
+        timestamp: "۱ روز پیش",
+    },
+    {
+        id: 3,
+        name: "ایمان کریمی",
+        avatar: "https://i.pravatar.cc/150?u=iman",
+        comment: "قابلیت هشدارهای شغلی شما فوق‌العاده است. یک موقعیت تخصصی مهندسی برق پیدا کردم که عالی بود.",
+        timestamp: "۳ روز پیش",
     },
 ];
 
@@ -320,14 +345,149 @@ export default function DashboardPage() {
                                     <Input placeholder="جستجوی آگهی..." className="ps-10" />
                                 </div>
                             </div>
-                            <TabsContent value="active" className="mt-4">
-                                <JobTable jobs={activeJobs} />
+                             <TabsContent value="active" className="mt-4">
+                               <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>عنوان شغل</TableHead>
+                                            <TableHead className="hidden sm:table-cell">شرکت</TableHead>
+                                            <TableHead className="hidden md:table-cell">بازدید</TableHead>
+                                            <TableHead className="hidden md:table-cell">درخواست</TableHead>
+                                            <TableHead>وضعیت</TableHead>
+                                            <TableHead><span className="sr-only">عملیات</span></TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {activeJobs.map((job) => (
+                                            <TableRow key={job.id}>
+                                                <TableCell className="font-medium">{job.title}</TableCell>
+                                                <TableCell className="hidden sm:table-cell">{job.company}</TableCell>
+                                                <TableCell className="hidden md:table-cell">{job.views.toLocaleString('fa-IR')}</TableCell>
+                                                <TableCell className="hidden md:table-cell">{job.applications.toLocaleString('fa-IR')}</TableCell>
+                                                <TableCell>
+                                                    <Badge variant={getJobStatusVariant(job.status) as any}>{job.status}</Badge>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger asChild>
+                                                            <Button aria-haspopup="true" size="icon" variant="ghost">
+                                                                <MoreHorizontal className="h-4 w-4" />
+                                                                <span className="sr-only">Toggle menu</span>
+                                                            </Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent align="end">
+                                                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+                                                            <DropdownMenuItem>
+                                                                <Edit className="me-2 h-4 w-4" />
+                                                                ویرایش
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem className="text-destructive focus:text-destructive">
+                                                                <Trash2 className="me-2 h-4 w-4" />
+                                                                حذف
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
                             </TabsContent>
-                            <TabsContent value="pending" className="mt-4">
-                               <JobTable jobs={pendingJobs} />
+                             <TabsContent value="pending" className="mt-4">
+                               <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>عنوان شغل</TableHead>
+                                            <TableHead className="hidden sm:table-cell">شرکت</TableHead>
+                                            <TableHead className="hidden md:table-cell">بازدید</TableHead>
+                                            <TableHead className="hidden md:table-cell">درخواست</TableHead>
+                                            <TableHead>وضعیت</TableHead>
+                                            <TableHead><span className="sr-only">عملیات</span></TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {pendingJobs.map((job) => (
+                                            <TableRow key={job.id}>
+                                                <TableCell className="font-medium">{job.title}</TableCell>
+                                                <TableCell className="hidden sm:table-cell">{job.company}</TableCell>
+                                                <TableCell className="hidden md:table-cell">{job.views.toLocaleString('fa-IR')}</TableCell>
+                                                <TableCell className="hidden md:table-cell">{job.applications.toLocaleString('fa-IR')}</TableCell>
+                                                <TableCell>
+                                                    <Badge variant={getJobStatusVariant(job.status) as any}>{job.status}</Badge>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger asChild>
+                                                            <Button aria-haspopup="true" size="icon" variant="ghost">
+                                                                <MoreHorizontal className="h-4 w-4" />
+                                                                <span className="sr-only">Toggle menu</span>
+                                                            </Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent align="end">
+                                                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+                                                            <DropdownMenuItem>
+                                                                <Edit className="me-2 h-4 w-4" />
+                                                                ویرایش
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem className="text-destructive focus:text-destructive">
+                                                                <Trash2 className="me-2 h-4 w-4" />
+                                                                حذف
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
                             </TabsContent>
                             <TabsContent value="expired" className="mt-4">
-                                <JobTable jobs={expiredJobs} />
+                                 <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>عنوان شغل</TableHead>
+                                            <TableHead className="hidden sm:table-cell">شرکت</TableHead>
+                                            <TableHead className="hidden md:table-cell">بازدید</TableHead>
+                                            <TableHead className="hidden md:table-cell">درخواست</TableHead>
+                                            <TableHead>وضعیت</TableHead>
+                                            <TableHead><span className="sr-only">عملیات</span></TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {expiredJobs.map((job) => (
+                                            <TableRow key={job.id}>
+                                                <TableCell className="font-medium">{job.title}</TableCell>
+                                                <TableCell className="hidden sm:table-cell">{job.company}</TableCell>
+                                                <TableCell className="hidden md:table-cell">{job.views.toLocaleString('fa-IR')}</TableCell>
+                                                <TableCell className="hidden md:table-cell">{job.applications.toLocaleString('fa-IR')}</TableCell>
+                                                <TableCell>
+                                                    <Badge variant={getJobStatusVariant(job.status) as any}>{job.status}</Badge>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger asChild>
+                                                            <Button aria-haspopup="true" size="icon" variant="ghost">
+                                                                <MoreHorizontal className="h-4 w-4" />
+                                                                <span className="sr-only">Toggle menu</span>
+                                                            </Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent align="end">
+                                                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+                                                            <DropdownMenuItem>
+                                                                <Edit className="me-2 h-4 w-4" />
+                                                                ویرایش
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem className="text-destructive focus:text-destructive">
+                                                                <Trash2 className="me-2 h-4 w-4" />
+                                                                حذف
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
                             </TabsContent>
                         </Tabs>
                     </CardContent>
@@ -363,15 +523,47 @@ export default function DashboardPage() {
                 </Card>
                 <Card className="mt-6">
                     <CardHeader>
-                        <CardTitle className="font-headline text-xl">پیغام‌ها و نظرات کاربران</CardTitle>
+                        <CardTitle className="font-headline text-xl flex items-center gap-2">
+                           <MessageSquare className="w-6 h-6"/> پیغام‌ها و نظرات کاربران
+                        </CardTitle>
                         <CardDescription>
                             بازخوردهای دریافتی از کاربران را در اینجا بررسی کنید.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-center text-muted-foreground py-8">
-                            در حال حاضر هیچ نظر جدیدی وجود ندارد.
-                        </div>
+                       {userComments.length > 0 ? (
+                            <div className="space-y-6">
+                                {userComments.map((comment) => (
+                                    <div key={comment.id} className="flex items-start gap-4">
+                                        <Avatar>
+                                            <AvatarImage src={comment.avatar} alt={comment.name} />
+                                            <AvatarFallback>{comment.name.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                        <div className="flex-1">
+                                            <div className="flex items-center justify-between">
+                                                <p className="font-semibold">{comment.name}</p>
+                                                <span className="text-xs text-muted-foreground">{comment.timestamp}</span>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground mt-1">{comment.comment}</p>
+                                            <div className="mt-2 flex items-center gap-2">
+                                                <Button variant="ghost" size="sm">
+                                                    <Reply className="me-2 h-4 w-4" />
+                                                    پاسخ
+                                                </Button>
+                                                <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                                                    <Trash2 className="me-2 h-4 w-4" />
+                                                    حذف
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center text-muted-foreground py-8">
+                                در حال حاضر هیچ نظر جدیدی وجود ندارد.
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </TabsContent>
