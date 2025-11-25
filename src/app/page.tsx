@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { featuredJobs } from '@/lib/data';
 import Link from 'next/link';
-import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse, Megaphone, Cog, Landmark, Handshake, Star } from 'lucide-react';
+import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse, Megaphone, Cog, Landmark, Handshake, Star, Clock, BrainCircuit, Headset, ThumbsUp } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -66,6 +66,30 @@ const jobCategories = [
     href: '/jobs?category=marketing',
   },
 ];
+
+const benefits = [
+  {
+    icon: <Clock className="w-10 h-10 text-primary" />,
+    title: "آگهی‌های به‌روز",
+    description: "به‌روزترین آگهی‌ها را هر روز مشاهده کنید و اولین نفر باشید که اقدام می‌کند.",
+  },
+  {
+    icon: <BrainCircuit className="w-10 h-10 text-primary" />,
+    title: "تشخیص شغل بر اساس مهارت",
+    description: "با هوش مصنوعی، شغل‌هایی را پیدا کنید که دقیقاً با مهارت‌های شما مطابقت دارند.",
+  },
+  {
+    icon: <Headset className="w-10 h-10 text-primary" />,
+    title: "پشتیبانی ۲۴ ساعته",
+    description: "در هر زمان و هر مکان، تیم پشتیبانی ما آماده پاسخگویی به سوالات شماست.",
+  },
+  {
+    icon: <ThumbsUp className="w-10 h-10 text-primary" />,
+    title: "تجربه کاربری عالی",
+    description: "با طراحی ساده و کاربرپسند، سریع‌تر و راحت‌تر شغل مورد نظر خود را پیدا کنید.",
+  },
+];
+
 
 const testimonials = [
   {
@@ -131,7 +155,34 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 md:px-6 -mt-8 md:-mt-12 lg:-mt-20">
+      <section className="bg-muted/40 py-12 md:py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center text-center gap-4 mb-10">
+            <h2 className="font-headline text-3xl md:text-4xl font-bold">چرا کاریابی نما؟</h2>
+            <p className="text-muted-foreground max-w-2xl">
+              ما بهترین ابزارها و امکانات را برای ساختن آینده شغلی شما فراهم کرده‌ایم.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="flex flex-col items-center text-center gap-4">
+                <div className="bg-primary/10 p-4 rounded-full">
+                  {benefit.icon}
+                </div>
+                <h3 className="font-headline text-xl font-bold">{benefit.title}</h3>
+                <p className="text-muted-foreground text-sm">{benefit.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Button asChild size="lg">
+              <Link href="/signup">اکنون ثبت‌نام کنید</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center text-center gap-4 mb-10">
           <h2 className="font-headline text-3xl md:text-4xl font-bold">دسته‌بندی مشاغل</h2>
           <p className="text-muted-foreground max-w-2xl">
