@@ -86,9 +86,9 @@
     },
     {
       "id": "category-engineering",
-      "description": "Close-up of interlocking metal gears",
-      "imageUrl": "https://images.unsplash.com/photo-1502483536391-11c57e9bbf38?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdpbmVlcmluZyUyMGdlYXJzfGVufDB8fHx8MTc2NDY3ODQ2Nnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "engineering gears"
+      "description": "Blueprint of an engineering project",
+      "imageUrl": "https://images.unsplash.com/photo-1519756301029-33a593384219?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdpbmVlcmluZyUyMGJsdWVwcmludHxlbnwwfHx8fDE3NjQ4NzQ0NTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "engineering blueprint"
     },
     {
       "id": "category-finance",
