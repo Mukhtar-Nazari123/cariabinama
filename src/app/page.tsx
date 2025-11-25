@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { featuredJobs } from '@/lib/data';
 import Link from 'next/link';
-import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse, Megaphone, Cog, Landmark, Handshake } from 'lucide-react';
+import { MapPin, Briefcase, Building, Code, Users, TrendingUp, Palette, HeartPulse, Megaphone, Cog, Landmark, Handshake, Star } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const jobCategories = [
   {
@@ -55,6 +56,30 @@ const jobCategories = [
     icon: <Megaphone className="w-8 h-8" />,
     image: PlaceHolderImages.find(p => p.id === "category-marketing")!,
     href: '/jobs?category=marketing',
+  },
+];
+
+const testimonials = [
+  {
+    name: 'سارا حسینی',
+    job: 'توسعه‌دهنده نرم‌افزار',
+    avatar: 'https://i.pravatar.cc/150?u=sara',
+    rating: 5,
+    comment: "کاریابی نما واقعاً کمکم کرد تا شغل رؤیایی‌ام را پیدا کنم. فرایند جستجو بسیار ساده و سریع بود. از شما متشکرم!",
+  },
+  {
+    name: 'امیر قاسمی',
+    job: 'مدیر محصول',
+    avatar: 'https://i.pravatar.cc/150?u=amir',
+    rating: 5,
+    comment: "به راحتی توانستم شغل مورد نظرم را در یک شرکت عالی پیدا کنم. توصیه‌های شغلی هوشمند بسیار دقیق و مفید بود.",
+  },
+  {
+    name: 'فاطمه اکبری',
+    job: 'طراح گرافیک',
+    avatar: 'https://i.pravatar.cc/150?u=fatemeh',
+    rating: 4,
+    comment: "پلتفرم کاربرپسندی دارید و تنوع آگهی‌های شغلی در زمینه طراحی عالی بود. تجربه خوبی داشتم.",
   },
 ];
 
@@ -172,6 +197,52 @@ export default function Home() {
             </Button>
         </div>
       </section>
+
+      <section className="bg-muted/40 py-12 md:py-16 lg:py-24">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center text-center gap-4 mb-10">
+            <h2 className="font-headline text-3xl md:text-4xl font-bold">نظرات کاربران و تجربیات موفق</h2>
+            <p className="text-muted-foreground max-w-2xl">
+              بیش از هزاران کاربر از خدمات ما بهره‌مند شده‌اند. در اینجا نظرات و تجربیات برخی از آن‌ها را مشاهده کنید.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial) => (
+              <Card key={testimonial.name} className="bg-background">
+                <CardContent className="pt-6">
+                  <div className="flex mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-5 h-5 ${i < testimonial.rating ? 'text-accent fill-accent' : 'text-muted-foreground/50'}`}
+                      />
+                    ))}
+                  </div>
+                  <blockquote className="text-foreground/90 italic border-s-4 border-primary ps-4">
+                    {testimonial.comment}
+                  </blockquote>
+                </CardContent>
+                <CardFooter className="flex items-center gap-4 pt-4">
+                  <Avatar>
+                    <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
+                    <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-semibold text-foreground">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.job}</p>
+                  </div>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+           <div className="text-center mt-12">
+            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                <Link href="#">شما هم تجربه خود را به اشتراک بگذارید!</Link>
+            </Button>
+        </div>
+        </div>
+      </section>
+
     </div>
   );
 }
