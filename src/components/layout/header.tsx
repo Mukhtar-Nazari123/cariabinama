@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Logo } from '@/components/shared/logo';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const navLinks = [
   { href: '/jobs', label: 'مشاغل' },
@@ -42,6 +43,7 @@ export function Header() {
         </div>
 
         <div className="hidden md:flex items-center gap-2">
+          <ThemeToggle />
           <Button variant="ghost" asChild>
             <Link href="/login">ورود</Link>
           </Button>
@@ -50,7 +52,8 @@ export function Header() {
           </Button>
         </div>
 
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
           <Sheet open={isSheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
