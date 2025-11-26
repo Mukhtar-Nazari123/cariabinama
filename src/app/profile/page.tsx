@@ -160,7 +160,7 @@ export default function CandidateProfilePage() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                     {workExperience.map((job, index) => (
-                        <div key={index} className="relative group">
+                        <div key={index} className="relative group pt-4">
                             <div className="flex gap-4">
                                 <div className="flex-grow">
                                     <h3 className="font-bold">{job.title}</h3>
@@ -169,7 +169,7 @@ export default function CandidateProfilePage() {
                                     <p className="text-sm mt-2">{job.description}</p>
                                 </div>
                             </div>
-                             <div className="absolute top-0 right-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                             <div className="absolute top-0 end-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Button variant="ghost" size="icon"><Edit className="w-4 h-4" /></Button>
                                 <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="w-4 h-4" /></Button>
                             </div>
@@ -190,11 +190,11 @@ export default function CandidateProfilePage() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                      {educationHistory.map((edu, index) => (
-                        <div key={index} className="relative group">
+                        <div key={index} className="relative group pt-4">
                             <h3 className="font-bold">{edu.degree} {edu.field}</h3>
                             <p className="text-sm text-muted-foreground">{edu.institution}</p>
                             <p className="text-xs text-muted-foreground mt-1">{edu.startDate} – {edu.endDate}</p>
-                             <div className="absolute top-0 right-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                             <div className="absolute top-0 end-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Button variant="ghost" size="icon"><Edit className="w-4 h-4" /></Button>
                                 <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="w-4 h-4" /></Button>
                             </div>
