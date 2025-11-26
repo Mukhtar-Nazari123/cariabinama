@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Briefcase, Menu, LogOut } from 'lucide-react';
+import { Briefcase, Menu, LogOut, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Logo } from '@/components/shared/logo';
@@ -21,33 +21,38 @@ export function Header() {
   const router = useRouter();
   const [isSheetOpen, setSheetOpen] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check localStorage on mount (client-side)
-    const loggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
-    setIsLoggedIn(loggedInStatus);
+    const handleAuthChange = () => {
+      const loggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
+      const email = localStorage.getItem('userEmail');
+      setIsLoggedIn(loggedInStatus);
+      setUserEmail(email);
+    };
+
+    // Run on initial mount
+    handleAuthChange();
     
     // Listen for storage changes to sync across tabs
-    const handleStorageChange = () => {
-      const newLoggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
-      setIsLoggedIn(newLoggedInStatus);
-    };
-
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('storage', handleAuthChange);
 
     // Also listen for a custom event that we can dispatch on login/logout
-    window.addEventListener('authChange', handleStorageChange);
+    window.addEventListener('authChange', handleAuthChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('authChange', handleStorageChange);
+      window.removeEventListener('storage', handleAuthChange);
+      window.removeEventListener('authChange', handleAuthChange);
     };
   }, []);
+
+  const isAdmin = userEmail === 'admin1234@gmail.com';
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userEmail');
     setIsLoggedIn(false);
+    setUserEmail(null);
     window.dispatchEvent(new Event('authChange')); // Notify other components
     router.push('/');
   };
@@ -81,10 +86,20 @@ export function Header() {
         <div className="hidden md:flex items-center gap-2">
           <ThemeToggle />
           {isLoggedIn ? (
-            <Button variant="ghost" onClick={handleLogout}>
-              <LogOut className="ms-2 h-4 w-4" />
-              خارج شوید
-            </Button>
+            <>
+              {isAdmin && (
+                <Button variant="outline" asChild>
+                  <Link href="/dashboard">
+                    <LayoutDashboard className="ms-2 h-4 w-4" />
+                    داشبورد
+                  </Link>
+                </Button>
+              )}
+              <Button variant="ghost" onClick={handleLogout}>
+                <LogOut className="ms-2 h-4 w-4" />
+                خارج شوید
+              </Button>
+            </>
           ) : (
             <>
               <Button variant="ghost" asChild>
@@ -128,10 +143,20 @@ export function Header() {
                 </nav>
                 <div className="mt-8 flex flex-col gap-2">
                   {isLoggedIn ? (
-                     <Button variant="outline" className="w-full" onClick={closeSheetAndLogout}>
-                        <LogOut className="ms-2 h-4 w-4" />
-                        خارج شوید
-                    </Button>
+                    <>
+                       {isAdmin && (
+                        <Button asChild className="w-full" onClick={() => setSheetOpen(false)}>
+                          <Link href="/dashboard">
+                            <LayoutDashboard className="ms-2 h-4 w-4" />
+                            داشبورد
+                          </Link>
+                        </Button>
+                      )}
+                      <Button variant="outline" className="w-full" onClick={closeSheetAndLogout}>
+                          <LogOut className="ms-2 h-4 w-4" />
+                          خارج شوید
+                      </Button>
+                    </>
                   ) : (
                     <>
                       <Button variant="outline" asChild className="w-full" onClick={() => setSheetOpen(false)}>
