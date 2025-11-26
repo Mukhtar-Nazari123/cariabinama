@@ -1,10 +1,11 @@
 
+'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Edit, Upload, EyeOff, MessageSquare, Bell, Star, Trash2, PlusCircle, Building, GraduationCap, Briefcase, Award } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -18,8 +19,21 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
-const candidate = {
+const candidateData = {
   name: "سارا حسینی",
   email: "sara.h@example.com",
   phone: "۰۹۱۲۳۴۵۶۷۸۹",
@@ -28,8 +42,9 @@ const candidate = {
   avatarUrl: "https://i.pravatar.cc/150?u=sara",
 };
 
-const educationHistory = [
+const educationHistoryData = [
   {
+    id: 1,
     institution: "دانشگاه تهران",
     field: "مهندسی کامپیوتر",
     degree: "کارشناسی ارشد",
@@ -37,6 +52,7 @@ const educationHistory = [
     endDate: "۱۳۹۸",
   },
   {
+    id: 2,
     institution: "دانشگاه صنعتی شریف",
     field: "مهندسی نرم‌افزار",
     degree: "کارشناسی",
@@ -45,8 +61,9 @@ const educationHistory = [
   }
 ];
 
-const workExperience = [
+const workExperienceData = [
     {
+        id: 1,
         title: "توسعه‌دهنده ارشد فرانت‌اند",
         company: "شرکت فناوری نوین",
         startDate: "۱۳۹۹",
@@ -54,6 +71,7 @@ const workExperience = [
         description: "توسعه و نگهداری اپلیکیشن‌های وب با استفاده از React و TypeScript. همکاری با تیم طراحی برای پیاده‌سازی رابط‌های کاربری مدرن و واکنش‌گرا. بهینه‌سازی عملکرد و بهبود تجربه کاربری."
     },
     {
+        id: 2,
         title: "توسعه‌دهنده فرانت‌اند",
         company: "استارتاپ راهکار پویا",
         startDate: "۱۳۹۷",
@@ -87,7 +105,36 @@ const recommendations = [
 
 
 export default function CandidateProfilePage() {
+  const { toast } = useToast();
+  const [candidate, setCandidate] = useState(candidateData);
+  const [workExperience, setWorkExperience] = useState(workExperienceData);
+  const [educationHistory, setEducationHistory] = useState(educationHistoryData);
+  
   const userInitial = candidate.name ? candidate.name.charAt(0) : 'U';
+
+  const handleEditClick = () => {
+    toast({
+      title: "قابلیت در دست ساخت",
+      description: "قابلیت ویرایش به زودی اضافه خواهد شد.",
+    });
+  };
+
+  const handleDeleteWork = (id: number) => {
+    setWorkExperience(workExperience.filter(item => item.id !== id));
+     toast({
+      title: "موفقیت‌آمیز",
+      description: "تجربه کاری با موفقیت حذف شد.",
+    });
+  };
+  
+  const handleDeleteEducation = (id: number) => {
+    setEducationHistory(educationHistory.filter(item => item.id !== id));
+     toast({
+      title: "موفقیت‌آمیز",
+      description: "سابقه تحصیلی با موفقیت حذف شد.",
+    });
+  };
+
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-8 md:py-12 bg-muted/40">
@@ -108,7 +155,7 @@ export default function CandidateProfilePage() {
                         <CardTitle className="font-headline text-2xl">اطلاعات شخصی</CardTitle>
                         <CardDescription>اطلاعات پایه خود را ویرایش کنید.</CardDescription>
                     </div>
-                    <Button variant="ghost" size="icon"><Edit className="w-5 h-5" /></Button>
+                    <Button variant="ghost" size="icon" onClick={handleEditClick}><Edit className="w-5 h-5" /></Button>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="flex items-center gap-6">
@@ -145,7 +192,7 @@ export default function CandidateProfilePage() {
                     </div>
                 </CardContent>
                  <CardFooter className="justify-end">
-                    <Button>ذخیره تغییرات</Button>
+                    <Button onClick={() => toast({ title: "موفقیت‌آمیز", description: "تغییرات شما با موفقیت ذخیره شد." })}>ذخیره تغییرات</Button>
                 </CardFooter>
             </Card>
 
@@ -160,7 +207,7 @@ export default function CandidateProfilePage() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                     {workExperience.map((job, index) => (
-                        <div key={index} className="relative group pt-4">
+                        <div key={job.id} className="relative group pt-4">
                             <div className="flex gap-4">
                                 <div className="flex-grow">
                                     <h3 className="font-bold">{job.title}</h3>
@@ -170,8 +217,24 @@ export default function CandidateProfilePage() {
                                 </div>
                             </div>
                              <div className="absolute top-0 end-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Button variant="ghost" size="icon"><Edit className="w-4 h-4" /></Button>
-                                <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                                <Button variant="ghost" size="icon" onClick={handleEditClick}><Edit className="w-4 h-4" /></Button>
+                                <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                        <AlertDialogTitle>آیا از حذف این مورد مطمئن هستید؟</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            این عمل قابل بازگشت نیست. این سابقه کاری برای همیشه حذف خواهد شد.
+                                        </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                        <AlertDialogCancel>انصراف</AlertDialogCancel>
+                                        <AlertDialogAction onClick={() => handleDeleteWork(job.id)}>حذف</AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
                             </div>
                             {index < workExperience.length - 1 && <Separator className="my-6" />}
                         </div>
@@ -190,13 +253,29 @@ export default function CandidateProfilePage() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                      {educationHistory.map((edu, index) => (
-                        <div key={index} className="relative group pt-4">
+                        <div key={edu.id} className="relative group pt-4">
                             <h3 className="font-bold">{edu.degree} {edu.field}</h3>
                             <p className="text-sm text-muted-foreground">{edu.institution}</p>
                             <p className="text-xs text-muted-foreground mt-1">{edu.startDate} – {edu.endDate}</p>
                              <div className="absolute top-0 end-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Button variant="ghost" size="icon"><Edit className="w-4 h-4" /></Button>
-                                <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                                <Button variant="ghost" size="icon" onClick={handleEditClick}><Edit className="w-4 h-4" /></Button>
+                                <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                        <AlertDialogTitle>آیا از حذف این مورد مطمئن هستید؟</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            این عمل قابل بازگشت نیست. این سابقه تحصیلی برای همیشه حذف خواهد شد.
+                                        </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                        <AlertDialogCancel>انصراف</AlertDialogCancel>
+                                        <AlertDialogAction onClick={() => handleDeleteEducation(edu.id)}>حذف</AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
                             </div>
                              {index < educationHistory.length - 1 && <Separator className="my-4" />}
                         </div>
@@ -308,3 +387,4 @@ export default function CandidateProfilePage() {
   );
 }
 
+    
