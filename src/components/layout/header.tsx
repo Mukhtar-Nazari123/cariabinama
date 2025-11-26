@@ -24,11 +24,14 @@ export function Header() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
+    // This function must be defined inside useEffect to have access to window
     const handleAuthChange = () => {
-      const loggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
-      const email = localStorage.getItem('userEmail');
-      setIsLoggedIn(loggedInStatus);
-      setUserEmail(email);
+      if (typeof window !== 'undefined') {
+        const loggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
+        const email = localStorage.getItem('userEmail');
+        setIsLoggedIn(loggedInStatus);
+        setUserEmail(email);
+      }
     };
 
     // Run on initial mount
@@ -46,14 +49,14 @@ export function Header() {
     };
   }, []);
 
-  const isAdmin = userEmail === 'admin1234@gmail.com';
+  const isAdmin = userEmail?.toLowerCase() === 'admin1234@gmail.com';
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userEmail');
-    setIsLoggedIn(false);
-    setUserEmail(null);
-    window.dispatchEvent(new Event('authChange')); // Notify other components
+    // We can't just set state here, we need to trigger the event
+    // to ensure all components (including this one) re-read from localStorage
+    window.dispatchEvent(new Event('authChange')); 
     router.push('/');
   };
 

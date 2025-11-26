@@ -26,11 +26,18 @@ export default function LoginPage() {
     e.preventDefault()
     
     // A real app would have more robust validation and backend communication.
-    // This is for demonstration purposes.
+    if (!email || !password) {
+       toast({
+        variant: "destructive",
+        title: "خطا در ورود",
+        description: "لطفا ایمیل و رمز عبور را وارد کنید.",
+      })
+      return;
+    }
 
     // Set login state in localStorage
     localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userEmail', email.toLowerCase());
 
     // Dispatch a custom event to notify other components (like the header)
     window.dispatchEvent(new Event('authChange'));
@@ -41,22 +48,12 @@ export default function LoginPage() {
         description: "به داشبورد خود خوش آمدید.",
       })
       router.push("/dashboard")
-    } else if (email && password) {
+    } else {
       toast({
         title: "ورود موفق",
         description: "خوش آمدید!",
       })
       router.push("/")
-    } else {
-       // This case is unlikely if form has `required` but good for robustness
-       localStorage.removeItem('isLoggedIn');
-       localStorage.removeItem('userEmail');
-       window.dispatchEvent(new Event('authChange'));
-      toast({
-        variant: "destructive",
-        title: "خطا در ورود",
-        description: "لطفا ایمیل و رمز عبور را وارد کنید.",
-      })
     }
   }
 
