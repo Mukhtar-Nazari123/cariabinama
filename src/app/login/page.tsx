@@ -26,7 +26,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
+          <form className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">ایمیل</Label>
               <Input
@@ -54,7 +54,7 @@ export default function LoginPage() {
             <Button variant="outline" className="w-full">
               ورود با گوگل
             </Button>
-          </div>
+          </form>
           <div className="mt-4 text-center text-sm">
             حساب کاربری ندارید؟{" "}
             <Link href="/signup" className="underline">

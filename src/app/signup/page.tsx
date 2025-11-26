@@ -26,7 +26,7 @@ export default function SignupPage() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="grid gap-4">
+                <form className="grid gap-4">
                     <div className="grid gap-2">
                         <Label htmlFor="full-name">نام و نام خانوادگی</Label>
                         <Input id="full-name" placeholder="مثلا: علی رضایی" required />
@@ -50,7 +50,7 @@ export default function SignupPage() {
                     <Button variant="outline" className="w-full">
                         ثبت نام با گوگل
                     </Button>
-                </div>
+                </form>
                 <div className="mt-4 text-center text-sm">
                     قبلا ثبت نام کرده‌اید؟{" "}
                     <Link href="/login" className="underline">
