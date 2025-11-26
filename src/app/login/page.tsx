@@ -24,13 +24,23 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
+    // In a real app, you would validate credentials with a backend service.
+    // Here, we simulate login for different roles.
     if (email === "admin1234@gmail.com") {
       toast({
         title: "ورود موفق",
         description: "به داشبورد خود خوش آمدید.",
       })
       router.push("/dashboard")
+    } else if (email && password) {
+      // Simulate a successful login for any other user
+      toast({
+        title: "ورود موفق",
+        description: "خوش آمدید!",
+      })
+      router.push("/")
     } else {
+      // This case is for demo purposes. A real app would have more robust validation.
       toast({
         variant: "destructive",
         title: "خطا در ورود",
