@@ -14,7 +14,6 @@ const navLinks = [
   { href: '/jobs', label: 'مشاغل' },
   { href: '/recommendations', label: 'توصیه‌ها' },
   { href: '/blog', label: 'وبلاگ' },
-  { href: '/dashboard', label: 'داشبورد' },
 ];
 
 export function Header() {

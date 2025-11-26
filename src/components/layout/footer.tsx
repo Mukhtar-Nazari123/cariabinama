@@ -21,7 +21,6 @@ export function Footer() {
                 <Link href="/jobs" className="hover:text-primary transition-colors">مشاغل</Link>
                 <Link href="/recommendations" className="hover:text-primary transition-colors">توصیه‌های هوشمند</Link>
                 <Link href="/blog" className="hover:text-primary transition-colors">وبلاگ</Link>
-                <Link href="/dashboard" className="hover:text-primary transition-colors">داشبورد</Link>
               </nav>
             </div>
             <div>
