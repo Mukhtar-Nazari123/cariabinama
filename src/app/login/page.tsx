@@ -24,27 +24,38 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real app, you would validate credentials with a backend service.
-    // Here, we simulate login for different roles.
-    if (email === "admin1234@gmail.com") {
+    
+    // A real app would have more robust validation and backend communication.
+    // This is for demonstration purposes.
+
+    // Set login state in localStorage
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userEmail', email);
+
+    // Dispatch a custom event to notify other components (like the header)
+    window.dispatchEvent(new Event('authChange'));
+
+    if (email.toLowerCase() === "admin1234@gmail.com") {
       toast({
         title: "ورود موفق",
         description: "به داشبورد خود خوش آمدید.",
       })
       router.push("/dashboard")
     } else if (email && password) {
-      // Simulate a successful login for any other user
       toast({
         title: "ورود موفق",
         description: "خوش آمدید!",
       })
       router.push("/")
     } else {
-      // This case is for demo purposes. A real app would have more robust validation.
+       // This case is unlikely if form has `required` but good for robustness
+       localStorage.removeItem('isLoggedIn');
+       localStorage.removeItem('userEmail');
+       window.dispatchEvent(new Event('authChange'));
       toast({
         variant: "destructive",
         title: "خطا در ورود",
-        description: "ایمیل یا رمز عبور نامعتبر است.",
+        description: "لطفا ایمیل و رمز عبور را وارد کنید.",
       })
     }
   }
