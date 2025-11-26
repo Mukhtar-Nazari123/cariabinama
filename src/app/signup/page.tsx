@@ -59,8 +59,8 @@ export default function SignupPage() {
             <CardContent>
                 <form action={formAction} className="grid gap-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="full-name">نام و نام خانوادگی</Label>
-                        <Input id="full-name" name="fullName" placeholder="مثلا: علی رضایی" required />
+                        <Label htmlFor="fullName">نام و نام خانوادگی</Label>
+                        <Input id="fullName" name="fullName" placeholder="مثلا: علی رضایی" required />
                          {state.errors?.fullName && <p className="text-sm text-destructive">{state.errors.fullName[0]}</p>}
                     </div>
                     <div className="grid gap-2">
@@ -85,7 +85,7 @@ export default function SignupPage() {
                     </Button>
                 </form>
 
-                 {state.message && (
+                 {state.message && !state.errors && (
                     <Alert variant={state.errors ? 'destructive' : 'default'} className="mt-4">
                         <AlertTitle>{state.errors ? 'خطا' : 'موفقیت'}</AlertTitle>
                         <AlertDescription>

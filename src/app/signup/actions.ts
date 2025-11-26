@@ -9,7 +9,7 @@ const SignupSchema = z.object({
 });
 
 export type SignupState = {
-  message: string;
+  message?: string | null;
   errors?: {
     fullName?: string[];
     email?: string[];
