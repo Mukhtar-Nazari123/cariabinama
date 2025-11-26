@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, MoreHorizontal, Users, UserCheck, UserX, Eye, MessageSquare, Reply, TrendingUp, BarChart, Users2 } from "lucide-react";
+import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, MoreHorizontal, Users, UserCheck, UserX, Eye, MessageSquare, Reply, TrendingUp, BarChart, Users2, PieChart as PieChartIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
@@ -31,6 +31,9 @@ import {
   Legend,
   Line,
   Bar,
+  PieChart,
+  Pie,
+  Cell,
 } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
@@ -213,8 +216,22 @@ const chartConfig = {
     label: "درخواست‌ها",
     color: "hsl(var(--chart-4))",
   },
+  jobs: {
+    label: "آگهی‌ها",
+  },
+  active: {
+    label: "فعال",
+    color: "hsl(var(--chart-2))",
+  },
+  pending: {
+    label: "در حال بررسی",
+    color: "hsl(var(--chart-4))",
+  },
+  expired: {
+    label: "منقضی شده",
+    color: "hsl(var(--chart-5))",
+  },
 };
-
 
 const getJobStatusVariant = (status: string) => {
     switch (status) {
@@ -355,7 +372,13 @@ export default function DashboardPage() {
   const activeJobs = managedJobs.filter(job => job.status === 'فعال');
   const pendingJobs = managedJobs.filter(job => job.status === 'در حال بررسی');
   const expiredJobs = managedJobs.filter(job => job.status === 'منقضی شده');
-    
+  
+  const jobsByStatusData = [
+    { name: 'فعال', value: activeJobs.length, fill: 'var(--color-active)' },
+    { name: 'در حال بررسی', value: pendingJobs.length, fill: 'var(--color-pending)' },
+    { name: 'منقضی شده', value: expiredJobs.length, fill: 'var(--color-expired)' },
+  ];
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
         <header className="mb-8 md:mb-12">
@@ -398,9 +421,9 @@ export default function DashboardPage() {
                         <Tabs defaultValue="active">
                             <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                                 <TabsList>
-                                    <TabsTrigger value="active">فعال</TabsTrigger>
-                                    <TabsTrigger value="pending">در حال بررسی</TabsTrigger>
-                                    <TabsTrigger value="expired">منقضی شده</TabsTrigger>
+                                    <TabsTrigger value="active">فعال ({activeJobs.length})</TabsTrigger>
+                                    <TabsTrigger value="pending">در حال بررسی ({pendingJobs.length})</TabsTrigger>
+                                    <TabsTrigger value="expired">منقضی شده ({expiredJobs.length})</TabsTrigger>
                                 </TabsList>
                                 <div className="relative w-full sm:w-auto sm:max-w-xs">
                                     <Search className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -552,7 +575,7 @@ export default function DashboardPage() {
                 </div>
             </TabsContent>
             <TabsContent value="analytics" className="mt-6">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
                     <Card>
                         <CardHeader>
                             <CardTitle className="font-headline flex items-center gap-2"><Users2 className="w-6 h-6"/>نمودار تعداد کاربران</CardTitle>
@@ -590,7 +613,7 @@ export default function DashboardPage() {
                             </ChartContainer>
                         </CardContent>
                     </Card>
-                    <Card>
+                    <Card className="md:col-span-2 lg:col-span-1">
                         <CardHeader>
                             <CardTitle className="font-headline flex items-center gap-2"><BarChart className="w-6 h-6"/>نمودار بازدیدها</CardTitle>
                             <CardDescription>بازدید آگهی‌های شغلی محبوب</CardDescription>
@@ -607,6 +630,25 @@ export default function DashboardPage() {
                             </ChartContainer>
                         </CardContent>
                     </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="font-headline flex items-center gap-2"><PieChartIcon className="w-6 h-6"/>توزیع وضعیت آگهی‌ها</CardTitle>
+                            <CardDescription>نمایش تعداد کل آگهی‌ها به تفکیک وضعیت</CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex items-center justify-center">
+                            <ChartContainer config={chartConfig} className="h-[250px] w-full max-w-[250px]">
+                                <PieChart>
+                                    <Tooltip content={<ChartTooltipContent nameKey="name" hideLabel />} />
+                                    <Pie data={jobsByStatusData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
+                                      {jobsByStatusData.map((entry, index) => (
+                                          <Cell key={`cell-${index}`} fill={entry.fill} />
+                                      ))}
+                                    </Pie>
+                                    <Legend />
+                                </PieChart>
+                            </ChartContainer>
+                        </CardContent>
+                    </Card>
                 </div>
             </TabsContent>
         </Tabs>
@@ -614,3 +656,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
