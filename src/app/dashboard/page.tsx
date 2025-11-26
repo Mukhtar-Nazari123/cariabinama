@@ -1,9 +1,11 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, MoreHorizontal, Users, UserCheck, UserX, Eye, MessageSquare, Reply } from "lucide-react";
+import { Bell, MapPin, Search, Trash2, Edit, PlusCircle, FileDown, MoreHorizontal, Users, UserCheck, UserX, Eye, MessageSquare, Reply, TrendingUp, BarChart, Users2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
@@ -18,6 +20,19 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import Link from "next/link";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  LineChart,
+  BarChart as RechartsBarChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  Line,
+  Bar,
+} from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 const alerts = [
   {
@@ -154,6 +169,52 @@ const userComments = [
         timestamp: "۳ روز پیش",
     },
 ];
+
+const usersData = [
+  { month: "فروردین", newUsers: 150, activeUsers: 80 },
+  { month: "اردیبهشت", newUsers: 220, activeUsers: 120 },
+  { month: "خرداد", newUsers: 300, activeUsers: 180 },
+  { month: "تیر", newUsers: 250, activeUsers: 160 },
+  { month: "مرداد", newUsers: 400, activeUsers: 250 },
+  { month: "شهریور", newUsers: 450, activeUsers: 300 },
+];
+
+const applicationsData = [
+  { month: "فروردین", applications: 450 },
+  { month: "اردیبهشت", applications: 600 },
+  { month: "خرداد", applications: 800 },
+  { month: "تیر", applications: 700 },
+  { month: "مرداد", applications: 1100 },
+  { month: "شهریور", applications: 1300 },
+];
+
+const viewsData = [
+  { job: "توسعه‌دهنده React", views: 2500 },
+  { job: "مدیر محصول", views: 1800 },
+  { job: "طراح UI/UX", views: 2200 },
+  { job: "مهندس نرم‌افزار", views: 3000 },
+  { job: "کارشناس فروش", views: 1500 },
+];
+
+const chartConfig = {
+  views: {
+    label: "بازدیدها",
+    color: "hsl(var(--chart-1))",
+  },
+  newUsers: {
+    label: "کاربران جدید",
+    color: "hsl(var(--chart-2))",
+  },
+  activeUsers: {
+    label: "کاربران فعال",
+    color: "hsl(var(--chart-3))",
+  },
+  applications: {
+    label: "درخواست‌ها",
+    color: "hsl(var(--chart-4))",
+  },
+};
+
 
 const getJobStatusVariant = (status: string) => {
     switch (status) {
@@ -305,10 +366,11 @@ export default function DashboardPage() {
         </header>
         
         <Tabs defaultValue="job-management">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="job-management">مدیریت آگهی‌های شغلی</TabsTrigger>
                 <TabsTrigger value="user-management">مدیریت کاربران</TabsTrigger>
                 <TabsTrigger value="job-alerts">هشدارهای شغلی</TabsTrigger>
+                <TabsTrigger value="analytics">آنالیز و گزارش‌گیری</TabsTrigger>
             </TabsList>
             <TabsContent value="job-management" className="mt-6">
                 <Card>
@@ -346,148 +408,13 @@ export default function DashboardPage() {
                                 </div>
                             </div>
                              <TabsContent value="active" className="mt-4">
-                               <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>عنوان شغل</TableHead>
-                                            <TableHead className="hidden sm:table-cell">شرکت</TableHead>
-                                            <TableHead className="hidden md:table-cell">بازدید</TableHead>
-                                            <TableHead className="hidden md:table-cell">درخواست</TableHead>
-                                            <TableHead>وضعیت</TableHead>
-                                            <TableHead><span className="sr-only">عملیات</span></TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {activeJobs.map((job) => (
-                                            <TableRow key={job.id}>
-                                                <TableCell className="font-medium">{job.title}</TableCell>
-                                                <TableCell className="hidden sm:table-cell">{job.company}</TableCell>
-                                                <TableCell className="hidden md:table-cell">{job.views.toLocaleString('fa-IR')}</TableCell>
-                                                <TableCell className="hidden md:table-cell">{job.applications.toLocaleString('fa-IR')}</TableCell>
-                                                <TableCell>
-                                                    <Badge variant={getJobStatusVariant(job.status) as any}>{job.status}</Badge>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button aria-haspopup="true" size="icon" variant="ghost">
-                                                                <MoreHorizontal className="h-4 w-4" />
-                                                                <span className="sr-only">Toggle menu</span>
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
-                                                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-                                                            <DropdownMenuItem>
-                                                                <Edit className="me-2 h-4 w-4" />
-                                                                ویرایش
-                                                            </DropdownMenuItem>
-                                                            <DropdownMenuItem className="text-destructive focus:text-destructive">
-                                                                <Trash2 className="me-2 h-4 w-4" />
-                                                                حذف
-                                                            </DropdownMenuItem>
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                               <JobTable jobs={activeJobs} />
                             </TabsContent>
                              <TabsContent value="pending" className="mt-4">
-                               <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>عنوان شغل</TableHead>
-                                            <TableHead className="hidden sm:table-cell">شرکت</TableHead>
-                                            <TableHead className="hidden md:table-cell">بازدید</TableHead>
-                                            <TableHead className="hidden md:table-cell">درخواست</TableHead>
-                                            <TableHead>وضعیت</TableHead>
-                                            <TableHead><span className="sr-only">عملیات</span></TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {pendingJobs.map((job) => (
-                                            <TableRow key={job.id}>
-                                                <TableCell className="font-medium">{job.title}</TableCell>
-                                                <TableCell className="hidden sm:table-cell">{job.company}</TableCell>
-                                                <TableCell className="hidden md:table-cell">{job.views.toLocaleString('fa-IR')}</TableCell>
-                                                <TableCell className="hidden md:table-cell">{job.applications.toLocaleString('fa-IR')}</TableCell>
-                                                <TableCell>
-                                                    <Badge variant={getJobStatusVariant(job.status) as any}>{job.status}</Badge>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button aria-haspopup="true" size="icon" variant="ghost">
-                                                                <MoreHorizontal className="h-4 w-4" />
-                                                                <span className="sr-only">Toggle menu</span>
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
-                                                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-                                                            <DropdownMenuItem>
-                                                                <Edit className="me-2 h-4 w-4" />
-                                                                ویرایش
-                                                            </DropdownMenuItem>
-                                                            <DropdownMenuItem className="text-destructive focus:text-destructive">
-                                                                <Trash2 className="me-2 h-4 w-4" />
-                                                                حذف
-                                                            </DropdownMenuItem>
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                               <JobTable jobs={pendingJobs} />
                             </TabsContent>
                             <TabsContent value="expired" className="mt-4">
-                                 <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>عنوان شغل</TableHead>
-                                            <TableHead className="hidden sm:table-cell">شرکت</TableHead>
-                                            <TableHead className="hidden md:table-cell">بازدید</TableHead>
-                                            <TableHead className="hidden md:table-cell">درخواست</TableHead>
-                                            <TableHead>وضعیت</TableHead>
-                                            <TableHead><span className="sr-only">عملیات</span></TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {expiredJobs.map((job) => (
-                                            <TableRow key={job.id}>
-                                                <TableCell className="font-medium">{job.title}</TableCell>
-                                                <TableCell className="hidden sm:table-cell">{job.company}</TableCell>
-                                                <TableCell className="hidden md:table-cell">{job.views.toLocaleString('fa-IR')}</TableCell>
-                                                <TableCell className="hidden md:table-cell">{job.applications.toLocaleString('fa-IR')}</TableCell>
-                                                <TableCell>
-                                                    <Badge variant={getJobStatusVariant(job.status) as any}>{job.status}</Badge>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button aria-haspopup="true" size="icon" variant="ghost">
-                                                                <MoreHorizontal className="h-4 w-4" />
-                                                                <span className="sr-only">Toggle menu</span>
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
-                                                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-                                                            <DropdownMenuItem>
-                                                                <Edit className="me-2 h-4 w-4" />
-                                                                ویرایش
-                                                            </DropdownMenuItem>
-                                                            <DropdownMenuItem className="text-destructive focus:text-destructive">
-                                                                <Trash2 className="me-2 h-4 w-4" />
-                                                                حذف
-                                                            </DropdownMenuItem>
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                <JobTable jobs={expiredJobs} />
                             </TabsContent>
                         </Tabs>
                     </CardContent>
@@ -622,6 +549,64 @@ export default function DashboardPage() {
                             ))}
                          </div>
                     </div>
+                </div>
+            </TabsContent>
+            <TabsContent value="analytics" className="mt-6">
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="font-headline flex items-center gap-2"><Users2 className="w-6 h-6"/>نمودار تعداد کاربران</CardTitle>
+                            <CardDescription>کاربران جدید و فعال در ۶ ماه گذشته</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <ChartContainer config={chartConfig} className="h-[250px] w-full">
+                                <LineChart data={usersData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+                                    <CartesianGrid vertical={false} />
+                                    <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} tickFormatter={(value) => value.slice(0, 3)} />
+                                     <YAxis />
+                                    <Tooltip content={<ChartTooltipContent />} />
+                                    <Legend />
+                                    <Line type="monotone" dataKey="newUsers" stroke="var(--color-newUsers)" strokeWidth={2} dot={false} />
+                                    <Line type="monotone" dataKey="activeUsers" stroke="var(--color-activeUsers)" strokeWidth={2} dot={false} />
+                                </LineChart>
+                            </ChartContainer>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="font-headline flex items-center gap-2"><TrendingUp className="w-6 h-6"/>نمودار درخواست‌ها</CardTitle>
+                            <CardDescription>تعداد درخواست‌های شغلی ثبت‌شده در هر ماه</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                           <ChartContainer config={chartConfig} className="h-[250px] w-full">
+                                <RechartsBarChart data={applicationsData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+                                    <CartesianGrid vertical={false} />
+                                    <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} tickFormatter={(value) => value.slice(0, 3)} />
+                                    <YAxis />
+                                    <Tooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
+                                    <Legend />
+                                    <Bar dataKey="applications" fill="var(--color-applications)" radius={4} />
+                                </RechartsBarChart>
+                            </ChartContainer>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="font-headline flex items-center gap-2"><BarChart className="w-6 h-6"/>نمودار بازدیدها</CardTitle>
+                            <CardDescription>بازدید آگهی‌های شغلی محبوب</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                             <ChartContainer config={chartConfig} className="h-[250px] w-full">
+                                <RechartsBarChart data={viewsData} layout="vertical" margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+                                    <CartesianGrid horizontal={false} />
+                                    <XAxis type="number" />
+                                    <YAxis dataKey="job" type="category" width={80} tickLine={false} axisLine={false} />
+                                    <Tooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
+                                    <Bar dataKey="views" layout="vertical" fill="var(--color-views)" radius={4} />
+                                </RechartsBarChart>
+                            </ChartContainer>
+                        </CardContent>
+                    </Card>
                 </div>
             </TabsContent>
         </Tabs>
