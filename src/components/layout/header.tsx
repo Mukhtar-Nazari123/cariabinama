@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Briefcase, Menu, LogOut, LayoutDashboard } from 'lucide-react';
+import { Briefcase, Menu, LogOut, LayoutDashboard, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Logo } from '@/components/shared/logo';
@@ -90,11 +90,18 @@ export function Header() {
           <ThemeToggle />
           {isLoggedIn ? (
             <>
-              {isAdmin && (
+              {isAdmin ? (
                 <Button variant="outline" asChild>
                   <Link href="/dashboard">
                     <LayoutDashboard className="ms-2 h-4 w-4" />
                     داشبورد
+                  </Link>
+                </Button>
+              ) : (
+                 <Button variant="outline" asChild>
+                  <Link href="/profile">
+                    <User className="ms-2 h-4 w-4" />
+                    پروفایل
                   </Link>
                 </Button>
               )}
@@ -147,11 +154,18 @@ export function Header() {
                 <div className="mt-8 flex flex-col gap-2">
                   {isLoggedIn ? (
                     <>
-                       {isAdmin && (
+                       {isAdmin ? (
                         <Button asChild className="w-full" onClick={() => setSheetOpen(false)}>
                           <Link href="/dashboard">
                             <LayoutDashboard className="ms-2 h-4 w-4" />
                             داشبورد
+                          </Link>
+                        </Button>
+                      ) : (
+                         <Button asChild className="w-full" onClick={() => setSheetOpen(false)}>
+                          <Link href="/profile">
+                            <User className="ms-2 h-4 w-4" />
+                            پروفایل
                           </Link>
                         </Button>
                       )}
