@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Edit, Upload, EyeOff, MessageSquare, Bell, Star, Trash2, PlusCircle, Building, GraduationCap, Briefcase, Award } from "lucide-react";
+import { Edit, Upload, EyeOff, MessageSquare, Bell, Star, Trash2, PlusCircle, Building, GraduationCap, Briefcase, Award, Save, X } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 const candidateData = {
   name: "سارا حسینی",
@@ -110,13 +111,56 @@ export default function CandidateProfilePage() {
   const [workExperience, setWorkExperience] = useState(workExperienceData);
   const [educationHistory, setEducationHistory] = useState(educationHistoryData);
   
+  const [editingWorkId, setEditingWorkId] = useState<number | null>(null);
+  const [editingEducationId, setEditingEducationId] = useState<number | null>(null);
+
+  const [editedWork, setEditedWork] = useState<any>(null);
+  const [editedEducation, setEditedEducation] = useState<any>(null);
+
   const userInitial = candidate.name ? candidate.name.charAt(0) : 'U';
 
-  const handleEditClick = () => {
+  const handleEditClick = (type: 'work' | 'education', id: number) => {
+    if (type === 'work') {
+      setEditingWorkId(id);
+      setEditedWork(workExperience.find(item => item.id === id));
+    } else {
+      setEditingEducationId(id);
+      setEditedEducation(educationHistory.find(item => item.id === id));
+    }
+  };
+
+  const handleCancelEdit = (type: 'work' | 'education') => {
+    if (type === 'work') {
+      setEditingWorkId(null);
+      setEditedWork(null);
+    } else {
+      setEditingEducationId(null);
+      setEditedEducation(null);
+    }
+  };
+
+  const handleSaveEdit = (type: 'work' | 'education') => {
+    if (type === 'work') {
+      setWorkExperience(workExperience.map(item => item.id === editingWorkId ? editedWork : item));
+      handleCancelEdit('work');
+    } else {
+      setEducationHistory(educationHistory.map(item => item.id === editingEducationId ? editedEducation : item));
+      handleCancelEdit('education');
+    }
     toast({
-      title: "قابلیت در دست ساخت",
-      description: "قابلیت ویرایش به زودی اضافه خواهد شد.",
+      title: "موفقیت‌آمیز",
+      description: "تغییرات شما با موفقیت ذخیره شد.",
     });
+  };
+
+  const handleWorkInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setEditedWork({ ...editedWork, [name]: value });
+  };
+  
+  const handleEducationInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditedEducation({ ...editedEducation, [name]: value });
   };
 
   const handleDeleteWork = (id: number) => {
@@ -155,7 +199,7 @@ export default function CandidateProfilePage() {
                         <CardTitle className="font-headline text-2xl">اطلاعات شخصی</CardTitle>
                         <CardDescription>اطلاعات پایه خود را ویرایش کنید.</CardDescription>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={handleEditClick}><Edit className="w-5 h-5" /></Button>
+                    <Button variant="ghost" size="icon" onClick={() => toast({ title: "قابلیت در دست ساخت", description: "قابلیت ویرایش به زودی اضافه خواهد شد." })}><Edit className="w-5 h-5" /></Button>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="flex items-center gap-6">
@@ -208,34 +252,69 @@ export default function CandidateProfilePage() {
                 <CardContent className="space-y-6">
                     {workExperience.map((job, index) => (
                         <div key={job.id} className="relative group pt-4">
-                            <div className="flex gap-4">
-                                <div className="flex-grow">
-                                    <h3 className="font-bold">{job.title}</h3>
-                                    <p className="text-sm text-muted-foreground">{job.company}</p>
-                                    <p className="text-xs text-muted-foreground mt-1">{job.startDate} – {job.endDate}</p>
-                                    <p className="text-sm mt-2">{job.description}</p>
+                           {editingWorkId === job.id ? (
+                                <div className="flex flex-col gap-4">
+                                     <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="title">عنوان شغلی</Label>
+                                            <Input name="title" value={editedWork.title} onChange={handleWorkInputChange} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="company">شرکت</Label>
+                                            <Input name="company" value={editedWork.company} onChange={handleWorkInputChange} />
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="startDate">تاریخ شروع</Label>
+                                            <Input name="startDate" value={editedWork.startDate} onChange={handleWorkInputChange} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="endDate">تاریخ پایان</Label>
+                                            <Input name="endDate" value={editedWork.endDate} onChange={handleWorkInputChange} />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="description">توضیحات</Label>
+                                        <Textarea name="description" value={editedWork.description} onChange={handleWorkInputChange} rows={4}/>
+                                    </div>
+                                    <div className="flex items-center gap-2 justify-end">
+                                        <Button variant="ghost" onClick={() => handleCancelEdit('work')}><X className="w-4 h-4 me-2" />لغو</Button>
+                                        <Button onClick={() => handleSaveEdit('work')}><Save className="w-4 h-4 me-2" />ذخیره</Button>
+                                    </div>
                                 </div>
-                            </div>
-                             <div className="absolute top-0 end-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Button variant="ghost" size="icon" onClick={handleEditClick}><Edit className="w-4 h-4" /></Button>
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                        <AlertDialogTitle>آیا از حذف این مورد مطمئن هستید؟</AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            این عمل قابل بازگشت نیست. این سابقه کاری برای همیشه حذف خواهد شد.
-                                        </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                        <AlertDialogCancel>انصراف</AlertDialogCancel>
-                                        <AlertDialogAction onClick={() => handleDeleteWork(job.id)}>حذف</AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            </div>
+                            ) : (
+                                <>
+                                    <div className="flex gap-4">
+                                        <div className="flex-grow">
+                                            <h3 className="font-bold">{job.title}</h3>
+                                            <p className="text-sm text-muted-foreground">{job.company}</p>
+                                            <p className="text-xs text-muted-foreground mt-1">{job.startDate} – {job.endDate}</p>
+                                            <p className="text-sm mt-2">{job.description}</p>
+                                        </div>
+                                    </div>
+                                    <div className="absolute top-0 end-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Button variant="ghost" size="icon" onClick={() => handleEditClick('work', job.id)}><Edit className="w-4 h-4" /></Button>
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                <AlertDialogTitle>آیا از حذف این مورد مطمئن هستید؟</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    این عمل قابل بازگشت نیست. این سابقه کاری برای همیشه حذف خواهد شد.
+                                                </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                <AlertDialogCancel>انصراف</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => handleDeleteWork(job.id)}>حذف</AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </div>
+                                </>
+                           )}
                             {index < workExperience.length - 1 && <Separator className="my-6" />}
                         </div>
                     ))}
@@ -254,29 +333,64 @@ export default function CandidateProfilePage() {
                 <CardContent className="space-y-6">
                      {educationHistory.map((edu, index) => (
                         <div key={edu.id} className="relative group pt-4">
-                            <h3 className="font-bold">{edu.degree} {edu.field}</h3>
-                            <p className="text-sm text-muted-foreground">{edu.institution}</p>
-                            <p className="text-xs text-muted-foreground mt-1">{edu.startDate} – {edu.endDate}</p>
-                             <div className="absolute top-0 end-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Button variant="ghost" size="icon" onClick={handleEditClick}><Edit className="w-4 h-4" /></Button>
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                        <AlertDialogTitle>آیا از حذف این مورد مطمئن هستید؟</AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            این عمل قابل بازگشت نیست. این سابقه تحصیلی برای همیشه حذف خواهد شد.
-                                        </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                        <AlertDialogCancel>انصراف</AlertDialogCancel>
-                                        <AlertDialogAction onClick={() => handleDeleteEducation(edu.id)}>حذف</AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            </div>
+                            {editingEducationId === edu.id ? (
+                                <div className="flex flex-col gap-4">
+                                     <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="degree">مقطع تحصیلی</Label>
+                                            <Input name="degree" value={editedEducation.degree} onChange={handleEducationInputChange} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="field">رشته تحصیلی</Label>
+                                            <Input name="field" value={editedEducation.field} onChange={handleEducationInputChange} />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="institution">موسسه آموزشی</Label>
+                                        <Input name="institution" value={editedEducation.institution} onChange={handleEducationInputChange} />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="startDate">تاریخ شروع</Label>
+                                            <Input name="startDate" value={editedEducation.startDate} onChange={handleEducationInputChange} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="endDate">تاریخ پایان</Label>
+                                            <Input name="endDate" value={editedEducation.endDate} onChange={handleEducationInputChange} />
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2 justify-end">
+                                        <Button variant="ghost" onClick={() => handleCancelEdit('education')}><X className="w-4 h-4 me-2" />لغو</Button>
+                                        <Button onClick={() => handleSaveEdit('education')}><Save className="w-4 h-4 me-2" />ذخیره</Button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <h3 className="font-bold">{edu.degree} {edu.field}</h3>
+                                    <p className="text-sm text-muted-foreground">{edu.institution}</p>
+                                    <p className="text-xs text-muted-foreground mt-1">{edu.startDate} – {edu.endDate}</p>
+                                    <div className="absolute top-0 end-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Button variant="ghost" size="icon" onClick={() => handleEditClick('education', edu.id)}><Edit className="w-4 h-4" /></Button>
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                <AlertDialogTitle>آیا از حذف این مورد مطمئن هستید؟</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    این عمل قابل بازگشت نیست. این سابقه تحصیلی برای همیشه حذف خواهد شد.
+                                                </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                <AlertDialogCancel>انصراف</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => handleDeleteEducation(edu.id)}>حذف</AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </div>
+                                </>
+                            )}
                              {index < educationHistory.length - 1 && <Separator className="my-4" />}
                         </div>
                     ))}
